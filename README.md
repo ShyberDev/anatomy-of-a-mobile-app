@@ -1,134 +1,127 @@
 # Anatomy of a Mobile App
 
-**The ten regions every screen is made of — and how they land in a real app.**
+**Two modes, one vocabulary.** Learn the parts on a generic screen, then check
+your own app against them.
 
-An interactive explainer. There is a phone on the left; you click a part of it —
-the status bar, the app bar, a card, the floating button — and the panel on the
-right explains what that part is for, who actually owns it, and how to build it.
-A toggle swaps the whole thing between the *universal* anatomy and the same ten
-regions mapped onto a real screen from a real app.
+- **Learn** — the three-level curriculum: screen anatomy → components → patterns.
+  Every entry carries do / don't guidance, because the widget reference tells you
+  an API exists and nothing about when *not* to reach for it.
+- **Jewellery Suite** — your running app, screen by screen, transcribed from the
+  Dart source. Click any part of a screen to see what it is, which Material
+  pattern it belongs to, and where it lives in the code.
 
-![The explorer with a region selected](docs/screenshot.png)
+https://shyberdev.github.io/anatomy-of-a-mobile-app/
 
-## Why this exists
+![The explorer on the Home screen of Jewellery Suite](docs/screenshot.png)
 
-Most people can build a screen that *works* and still cannot explain what is in
-it. "It's just a list with a header" is a description of pixels, not of
-structure. This project is an attempt to hand over a **vocabulary** — ten names
-that are enough to describe almost any mobile screen — and then to show that the
-same vocabulary describes *your* app, without renaming anything.
+## Why two modes
 
-The idea of a clickable, annotated anatomy diagram is not mine. It comes from
-[**AnatomyOf**](https://anatomyof.lunarwerx.com) by
-[LunarWerx](https://lunarwerx.com) (MIT), which does this for source files and
-programming languages. Everything here — the region model, all of the prose, the
-simulation and this app — is original. If you like it, go read theirs; it covers
-a lot more ground than one page.
+The vocabulary only pays off if it transfers. In **Learn** you are building
+something new and want the ten regions, the widgets that make them, and the
+patterns that combine them. In **Jewellery Suite** you are reviewing something
+that exists, and the same names let you point at a screen and say "this row is a
+list tile, this is a choice chip, this gradient is the app's emphasis
+treatment" — and notice where one screen does it differently from another.
 
-## The ten regions
+That difference is the point. A consistency you cannot see is a consistency you
+cannot fix.
 
-| Region | Owner | What it is for |
-|---|---|---|
-| **Status bar** | OS | The strip the system reserves for time, signal and battery. Never draw your own. |
-| **App bar (top bar)** | App | Screen identity: the title on the leading/centre side, actions on the trailing edge. |
-| **Content area** | App | The scrollable region holding whatever the screen is actually for. Usually the only thing that scrolls. |
-| **Card / list item** | App | The tappable unit that repeats down the content area. One row, one thing, one tap. |
-| **Search field** | App | Narrows a large set to a small one. Placeholder text names the thing being searched. |
-| **Floating action button** | App | The one prominent action for the whole screen. Singular by design. |
-| **Snackbar** | App | Brief confirmation, optionally with an undo. Queued, never stacked. |
-| **Bottom sheet** | App | A temporary, contextual panel for choices that belong to this moment only. |
-| **Bottom navigation** | App | The persistent bar of 3–5 top-level destinations. |
-| **System navigation** | OS | The gesture pill or button row the platform keeps for leaving your app. |
+## The three levels
 
-### The one distinction that matters most
+**Level 1 — Screen anatomy.** The parts every screen is made of: status bar, top
+app bar, body, cards, lists, forms, FAB, bottom navigation.
 
-Every region is tagged **`OS`** or **`App`**, and the two OS regions are the ones
-people get wrong. The status bar and the system navigation bar are painted by
-the platform — your app is told how tall they are and is expected to pad by
-exactly that much. Draw a status bar yourself and the system paints over it.
-Ignore the insets and your bottom navigation ends up underneath the gesture pill
-on the one device that made your content longest.
+**Level 2 — Components.** The Material widgets behind each part, in Flutter's own
+groupings: Actions, Communication, Containment, Navigation, Selection, Text
+inputs.
 
-## The two datasets
+**Level 3 — Patterns.** The arrangements you assemble components into: dashboard,
+CRUD form, search + filter, master–detail, list → detail, tabbed interface,
+bottom navigation, drawer, wizard, confirmation dialog, empty / loading / error
+states.
 
-**Universal** — the ten regions described on their own terms, for any app on any
-platform. This is the vocabulary.
+Levels are ordered by dependency, not difficulty — you cannot pick the right
+pattern until you know the pieces, and you cannot name the pieces until you know
+where they sit.
 
-**Jewellery Suite** — the same ten region ids, re-described against a real
-screen: the Home dashboard of [Jewellery Suite](https://github.com/ShyberDev/Jew_Pawn-Lending-Suite),
-the offline-first Flutter client for the Jewellery + Pawn + Khatabook + Lending
-bundle. Same region, same id, same position on screen — different copy, and a
-`In this app` section naming the actual screens and the actual constraints.
+## What I found transcribing your app
 
-That is the whole argument of the project: the vocabulary transfers. Once you
-can name the ten regions on a generic screen, you can name them on your own app,
-and reviewing a screen becomes a conversation about structure rather than about
-pixels.
+Building the Jewellery Suite pages turned up several things worth checking. None
+are crashes; they are decisions that are inconsistent or invisible until you put
+two screens side by side.
+
+| Where | What |
+|---|---|
+| Reports, both tabs | `moneyWhole` on Khata (`1,600`), `moneyText` on Pawn (`100000.00`) — two money formats on one screen |
+| Pawn summary strip | Always computed from active loans, so selecting **Released** leaves it showing active figures |
+| Pawn Loans / Reports | Metal chips have no "All" on the list screen, but do on the report |
+| Pawn loan rows | Trailing value is the status word; the amount is in the subtitle. The khata member row does the opposite |
+| Pawn loan rows | Book ID is displayed but excluded from the search query |
+| Customer ledger rows | Delete with no confirmation and no admin gate, unlike khata and member deletion |
+| Village screen | `khataType` is passed in and never read; `villages.lat/lng` is write-only |
+| Home | Two Core Module tiles and three drawer rows call `comingSoon()` and do nothing |
+| Pawn Dashboard | "1 loans older than a year" — plural bug |
+| Khata Books | Empty-state copy says "Tap +" but the action is now an app-bar icon |
+| Summary strip (village) | Uses `kInk` directly, so it does not adapt to dark mode |
+| Everywhere | `appBarTheme` applies to pushed screens only — Home has no AppBar and no bottom navigation |
+
+The **"Worth a look"** list at the bottom of App mode links to each of these on
+the screen where it happens.
+
+## Two corrections to the earlier version
+
+The first version of this site was built from the README and got Home wrong in
+ways worth recording, because both mistakes are easy to make:
+
+- It drew an `AppBar` and a bottom navigation bar. Home has **neither** — the
+  `Scaffold` declares only `backgroundColor`, `drawer` and `body`, and the
+  header is an in-body `Row`. The `appBarTheme` in `app.dart` applies to pushed
+  child screens.
+- It showed two KPI cards. There are **six**, in two columns of three.
 
 ## Running it
-
-Requires Node 18+.
 
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm run build      # type-check + production build into dist/
-npm run preview    # serve the production build
+npm run build      # type-check + build into dist/
 ```
 
-Deploying is `dist/` on any static host. There is no backend, no account and no
-build-time data fetching, so GitHub Pages, Netlify and Cloudflare Pages all work
-by pointing at the output directory.
+`git push` to `main` deploys to GitHub Pages via `.github/workflows/deploy.yml`.
+The build runs `vue-tsc`, so a type error fails the deploy rather than shipping.
 
 ## How it's put together
 
-The simulation is not hand-drawn. Each region carries its own geometry as
-fractions of the phone screen, and the component draws a transparent hit area per
-region on top of a CSS mock. There are no coordinates in the template.
+Everything visual is data. The phone mock renders a screen's `blocks`, and each
+region carries its own geometry as fractions of the screen — there are no
+coordinates in any template. Adding a screen is a data edit.
 
 ```
-src/
-├── data/
-│   ├── types.ts        the Region model — the only file that defines the shape
-│   ├── universal.ts    the ten regions, generic
-│   └── jewellery.ts    the same ten ids, mapped onto a real app
-├── components/
-│   ├── PhoneFrame.vue  the mock screen + the hit areas
-│   ├── RegionList.vue  the legend, which doubles as the control for overlays
-│   └── DetailPanel.vue the explanation
-└── App.vue             dataset switching and selection state
+src/data/
+├── types.ts            the Region / Screen / Block model
+├── levels.ts           the Level 1/2/3 entry types
+├── level1-2.ts         anatomy and components, with do/don't
+├── level3.ts           patterns
+├── universal.ts        the generic screen
+├── jewellery-screens.ts  eight real screens from the Dart source
+└── jewellery.ts        dataset wrapper + your real palette
 ```
 
-Z-ordering is explicit in `PhoneFrame.vue`. The content area's children have to
-out-rank their own parent, and overlays have to out-rank everything, or the
-largest invisible rectangle on the screen quietly swallows every tap.
-
-### Adding a dataset
-
-Add one file under `src/data/` exporting a `Dataset`, then add it to the
-`datasets` array in `App.vue`. The simulation reads its geometry from the data,
-so a new dataset needs no component changes and the phone does not move a pixel.
-
-Two behaviours worth knowing:
-
-- **Overlays start hidden.** A snackbar and a bottom sheet are not part of a
-  resting screen, so they only appear when you select them — from the phone or
-  from the legend, which shows a `hidden` / `shown` badge to say so. A FAB is
-  always on, because it is part of the baseline.
-- **Selecting something already selected deselects it**, so clicking a region
-  twice returns you to the empty panel.
+To document another app, add a `screens` array using the same `Block` and
+`Region` shapes. Nothing in the components needs to change.
 
 ## Credits
 
 The clickable-anatomy-diagram format was inspired by
 [**AnatomyOf**](https://anatomyof.lunarwerx.com) by
-[LunarWerx](https://lunarwerx.com), which applies it to source files and
-programming languages. No code or copy was taken from it — this is an original
-implementation, and not affiliated.
+[LunarWerx](https://lunarwerx.com). No code or copy was taken from it — this is
+an original implementation, and not affiliated.
 
-The app documented in the second dataset is
-[Jew_Pawn-Lending-Suite](https://github.com/ShyberDev/Jew_Pawn-Lending-Suite)
-by [ShyberDev](https://github.com/ShyberDev).
+Category names and widget groupings follow Flutter's
+[Material component catalog](https://docs.flutter.dev/ui/widgets/material) and
+Android's [Material components](https://developer.android.com/design/ui/mobile/guides/components/material-overview)
+and [layout patterns](https://developer.android.com/design/ui/mobile/guides/layout-and-content/layout-and-nav-patterns)
+guides. The guidance and all wording are ours.
 
 ## License
 
