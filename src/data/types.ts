@@ -150,6 +150,10 @@ export type Block =
   | { kind: 'navbar'; items: { icon: string; label: string }[]; active: number }
   | { kind: 'actionBar'; items: { label: string; icon: string; filled?: boolean; tone?: Tone }[] }
   | { kind: 'fieldRow'; label: string; value: string; input?: 'text' | 'date' }
+  | {
+      kind: 'buttonRow'
+      items: { label: string; icon?: string; filled?: boolean; tone?: Tone }[]
+    }
   | { kind: 'pill'; text: string; tone?: Tone }
   | { kind: 'spacer'; h: number }
 
@@ -169,6 +173,23 @@ export interface Region {
   source?: string
   /** How this was done here, and why — the app-specific argument. */
   notes?: string[]
+  /**
+   * Which block(s) this region covers, by index into `Screen.blocks`.
+   *
+   * Preferred over `box` because it survives the mock scrolling: a fixed
+   * fraction drifts as soon as the content is taller than the screen, which is
+   * the normal case for a real screen. A single index covers one block;
+   * `[start, end]` spans a run, which is how the content area covers everything
+   * between the header and the bottom bar.
+   */
+  anchor?: number | [number, number]
+  /**
+   * Shrink the measured box by these fractions of itself. Lets several regions
+   * describe different parts of one block — a switch, a checkbox and a radio
+   * sharing a row — without any of them covering the others.
+   */
+  inset?: { top: number; right: number; bottom: number; left: number }
+  /** Fallback geometry, as fractions of the phone screen. */
   box: { x: number; y: number; w: number; h: number }
   /** Drawn above the layout flow; hidden until selected. */
   overlay?: boolean

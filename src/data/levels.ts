@@ -21,6 +21,18 @@ export interface Guidance {
   dont: string[]
 }
 
+/**
+ * One small diagram per side, keyed into `Figure.vue`. A picture of the right
+ * shape beats a paragraph about it, so entries where the point is visual —
+ * three buttons versus six, a hint versus a label — carry a figure. Entries
+ * whose point is conceptual do not, because a decorative image there would be
+ * worse than no image.
+ */
+export interface Figures {
+  do?: string
+  dont?: string
+}
+
 export interface Level1Entry {
   id: string
   label: string
@@ -31,7 +43,14 @@ export interface Level1Entry {
   blurb: string
   /** Why it exists — the job, not the anatomy. */
   purpose: string
+  /**
+   * Id of the region on the generic screen this part occupies. Defaults to the
+   * entry id, which is why the generic screen can name its regions after the
+   * components rather than inventing a second vocabulary to keep in sync.
+   */
+  region?: string
   guidance: Guidance
+  figs?: Figures
 }
 
 export interface Level2Entry {
@@ -43,7 +62,9 @@ export interface Level2Entry {
   blurb: string
   /** When to reach for this rather than something else. */
   whenToUse: string
+  region?: string
   guidance: Guidance
+  figs?: Figures
 }
 
 export interface Level3Entry {
@@ -55,6 +76,7 @@ export interface Level3Entry {
   /** The components it is assembled from, by Level 2 id. */
   builds: string[]
   guidance: Guidance
+  figs?: Figures
 }
 
 export interface Level {

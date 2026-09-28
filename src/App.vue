@@ -9,6 +9,7 @@ import type { Level1Entry, Level2Entry, Level3Entry } from './data/levels'
 import PhoneFrame from './components/PhoneFrame.vue'
 import RegionList from './components/RegionList.vue'
 import DetailPanel from './components/DetailPanel.vue'
+import NavBreakdown from './components/NavBreakdown.vue'
 
 type Mode = 'learn' | 'app'
 type Tab = 1 | 2 | 3
@@ -33,6 +34,51 @@ const entries = computed(() => {
 const entry = computed(
   () => entries.value.find((e) => e.id === entryId.value) ?? null,
 )
+
+/**
+ * Which region the phone should highlight.
+ *
+ * A Level 1 or 2 entry highlights its own region — the generic screen names
+ * regions after components for exactly this reason. A Level 3 pattern has no
+ * single region, so it highlights the regions of the components it is built
+ * from, which is the point of showing patterns at all.
+ */
+const learnRegion = computed<string | null>(() => {
+  const e = entry.value
+  if (!e) return null
+  // Only Level 3 entries carry `builds`, and that is the one structural
+  // difference — so test for it rather than probing optional fields, which are
+  // absent at runtime and make `in` unreliable.
+  if ('builds' in e) return e.builds[0] ?? null
+  return (e as Level1Entry).region ?? e.id
+})
+
+/** Overlay regions get revealed when their entry is selected. */
+const learnRevealed = computed(() => {
+  const id = learnRegion.value
+  if (!id) return []
+  const r = universal.screens[0].regions.find((x) => x.id === id)
+  return r?.overlay ? [id] : []
+})
+
+const learnCaption = computed(() => {
+  const id = learnRegion.value
+  if (!id) return 'pick an entry — the part highlights here'
+  const r = universal.screens[0].regions.find((x) => x.id === id)
+  return r ? `${r.label} highlighted` : 'pick an entry'
+})
+
+/** Clicking a region on the generic screen jumps to the entry that explains it. */
+function selectLearnRegion(id: string) {
+  const match = (level.value.entries as (Level1Entry | Level2Entry | Level3Entry)[]).find(
+    (e) => (e as Level1Entry).region === id || e.id === id,
+  )
+  if (match) {
+    entryId.value = entryId.value === match.id ? null : match.id
+  } else {
+    entryId.value = null
+  }
+}
 
 /** Jump straight to a component from a pattern's "built from" chips. */
 function pickComponent(id: string) {
@@ -191,16 +237,16 @@ const flagged = computed(() =>
               {{ entry?.label ?? 'assembled parts' }}
             </template>
             <template v-else>
-              <span class="stage__captionLabel">A screen is made of</span>
-              the parts in the list
+              <span class="stage__captionLabel">{{ learnCaption }}</span>
             </template>
           </p>
           <PhoneFrame
             :dataset="dataset"
             :screen="dataset.screens[0]"
-            :selected="null"
-            :revealed="[]"
+            :selected="learnRegion"
+            :revealed="learnRevealed"
             :scale="1"
+            @select="selectLearnRegion"
           />
         </section>
 
@@ -221,7 +267,13 @@ const flagged = computed(() =>
           </ol>
         </nav>
 
-        <DetailPanel :level="level" :entry="entry" @pick="pickComponent" />
+        <DetailPanel :level="level" :entry="entry" @pick="pickComponent">
+          <template #extra>
+            <!-- The pattern entry explains the rule; this answers what to do
+                 with the bar you actually have in front of you. -->
+            <NavBreakdown v-if="entry?.id === 'bottom-nav' && tab === 3" :screen="dataset.screens[0]" />
+          </template>
+        </DetailPanel>
       </main>
     </template>
 

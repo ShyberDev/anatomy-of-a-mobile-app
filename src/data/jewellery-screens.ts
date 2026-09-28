@@ -181,7 +181,8 @@ export const jewelleryScreens: Screen[] = [
           'Date line is "Mon, 28 Sep" — weekday, day, month, no year.',
           'If a design tells you to add an AppBar here, you are fighting the code.',
         ],
-        box: { x: 0, y: 0.052, w: 1, h: 0.088 },
+        anchor: 1,
+          box: { x: 0, y: 0.052, w: 1, h: 0.088 },
       },
       {
         id: 'kpi-strip',
@@ -201,7 +202,8 @@ export const jewelleryScreens: Screen[] = [
           'Every icon is gold. There is no green/red/blue semantics on Home at all.',
           'Pawns and Active khata are plain counts with no ₹ prefix.',
         ],
-        box: { x: 0.04, y: 0.196, w: 0.92, h: 0.183 },
+        anchor: 3,
+          box: { x: 0.04, y: 0.196, w: 0.92, h: 0.183 },
       },
       {
         id: 'core-modules',
@@ -222,7 +224,8 @@ export const jewelleryScreens: Screen[] = [
           'Gold disc is 14% on modules, 16% on Quick Actions. Easy to unify by accident.',
           'Decide: ship Cashbook and Jewellery, or drop them and give the two live modules a full row each.',
         ],
-        box: { x: 0.04, y: 0.404, w: 0.92, h: 0.16 },
+        anchor: 5,
+          box: { x: 0.04, y: 0.404, w: 0.92, h: 0.16 },
       },
       {
         id: 'more-section',
@@ -240,7 +243,8 @@ export const jewelleryScreens: Screen[] = [
         notes: [
           'The only place in the app where a row subtitle changes with state.',
         ],
-        box: { x: 0.04, y: 0.585, w: 0.92, h: 0.175 },
+        anchor: 7,
+          box: { x: 0.04, y: 0.585, w: 0.92, h: 0.175 },
       },
       {
         id: 'quick-actions',
@@ -260,7 +264,8 @@ export const jewelleryScreens: Screen[] = [
           'Subtitle is maxLines 2 with ellipsis, so a longer label truncates rather than growing the tile.',
           'Blurb above the grid: "Everyday jobs in one tap — tap any shortcut to start."',
         ],
-        box: { x: 0.04, y: 0.785, w: 0.92, h: 0.145 },
+        anchor: 9,
+          box: { x: 0.04, y: 0.785, w: 0.92, h: 0.145 },
       },
       {
         id: 'drawer',
@@ -361,7 +366,8 @@ export const jewelleryScreens: Screen[] = [
           'Empty-state copy says "Tap +" but the action is now an app-bar icon.',
           'No FAB here, but Pawn Loans and Khatabook both use FloatingActionButton.extended. Inconsistent.',
         ],
-        box: { x: 0, y: 0.052, w: 1, h: 0.088 },
+        anchor: 1,
+          box: { x: 0, y: 0.052, w: 1, h: 0.088 },
       },
       {
         id: 'summary-card',
@@ -379,7 +385,8 @@ export const jewelleryScreens: Screen[] = [
           'Two gradients, not one: #3A2E0E→#6B5417 here and #4A3A10→#8A6D1E for refinance rows. Very close and easy to confuse.',
           'A gold-gradient card cannot express urgency. Overdue is a count here; red is reserved for badges.',
         ],
-        box: { x: 0.04, y: 0.152, w: 0.92, h: 0.115 },
+        anchor: 2,
+          box: { x: 0.04, y: 0.152, w: 0.92, h: 0.115 },
       },
       {
         id: 'khata-rows',
@@ -401,7 +408,8 @@ export const jewelleryScreens: Screen[] = [
           'Sorted by village_name asc in the query. No sort, filter or search UI on this screen.',
           'A synthetic group named "General" holds customers with no village.',
         ],
-        box: { x: 0.04, y: 0.3, w: 0.92, h: 0.28 },
+        anchor: 5,
+          box: { x: 0.04, y: 0.3, w: 0.92, h: 0.28 },
       },
       deleteTrash,
       systemNav,
@@ -466,7 +474,8 @@ export const jewelleryScreens: Screen[] = [
         ],
         widget: 'AppBar(title: Text(widget.khataName))',
         source: 'lib/ui/khata_screen.dart:662+',
-        box: { x: 0, y: 0.052, w: 1, h: 0.088 },
+        anchor: 1,
+          box: { x: 0, y: 0.052, w: 1, h: 0.088 },
       },
       {
         id: 'summary-strip',
@@ -485,7 +494,8 @@ export const jewelleryScreens: Screen[] = [
           'The strip uses kInk directly rather than inkOf(context), so it does not adapt to dark mode. The parent screen\'s gradient card does.',
           'Flat card here, gradient on Khata Books. Two treatments for the same idea on adjacent screens.',
         ],
-        box: { x: 0.03, y: 0.152, w: 0.94, h: 0.072 },
+        anchor: 2,
+          box: { x: 0.03, y: 0.152, w: 0.94, h: 0.072 },
       },
       {
         id: 'filter-chips',
@@ -504,7 +514,8 @@ export const jewelleryScreens: Screen[] = [
           '"This Week" is actually "overdue or due within the next week", not a calendar week.',
           'No counts on the chips, so you cannot tell how many are overdue before tapping.',
         ],
-        box: { x: 0.03, y: 0.235, w: 0.94, h: 0.045 },
+        anchor: 3,
+          box: { x: 0.03, y: 0.235, w: 0.94, h: 0.045 },
       },
       {
         id: 'search',
@@ -523,7 +534,8 @@ export const jewelleryScreens: Screen[] = [
           'isDense matters — a full-height field pushes the list down on a small phone.',
           'Filters and search compose rather than replacing each other.',
         ],
-        box: { x: 0.03, y: 0.29, w: 0.94, h: 0.058 },
+        anchor: 4,
+          box: { x: 0.03, y: 0.29, w: 0.94, h: 0.058 },
       },
       {
         id: 'member-rows',
@@ -546,7 +558,8 @@ export const jewelleryScreens: Screen[] = [
           '"DUE 3 DAYS AGO" / "DUE 1 DAY AGO" pluralisation is hand-written, so it is worth a check.',
           'The village is shown here even though the customer profile never shows it.',
         ],
-        box: { x: 0.03, y: 0.36, w: 0.94, h: 0.3 },
+        anchor: 5,
+          box: { x: 0.03, y: 0.36, w: 0.94, h: 0.3 },
       },
       {
         id: 'add-member-fab',
@@ -565,7 +578,8 @@ export const jewelleryScreens: Screen[] = [
           'Button says "Add Member", the form it opens says "New Customer". Worth aligning.',
           '140px bottom padding on the list clears this FAB.',
         ],
-        box: { x: 0.42, y: 0.7, w: 0.54, h: 0.075 },
+        anchor: 6,
+          box: { x: 0.42, y: 0.7, w: 0.54, h: 0.075 },
         overlay: true,
       },
       {
@@ -643,7 +657,8 @@ export const jewelleryScreens: Screen[] = [
         ],
         widget: 'AppBar + IconButton',
         source: 'lib/ui/pawn_screen.dart:20–486',
-        box: { x: 0, y: 0.052, w: 1, h: 0.088 },
+        anchor: 1,
+          box: { x: 0, y: 0.052, w: 1, h: 0.088 },
       },
       {
         id: 'summary-strip',
@@ -663,7 +678,8 @@ export const jewelleryScreens: Screen[] = [
           'No count metric, though the underlying totals function returns one.',
           'README says "principal out"; the code says "Investment".',
         ],
-        box: { x: 0.03, y: 0.152, w: 0.94, h: 0.085 },
+        anchor: 2,
+          box: { x: 0.03, y: 0.152, w: 0.94, h: 0.085 },
       },
       {
         id: 'status-chips',
@@ -682,7 +698,8 @@ export const jewelleryScreens: Screen[] = [
           'Three extra chips exist but only render when entered with a preset — invisible in a normal walkthrough.',
           'No counts on the chips.',
         ],
-        box: { x: 0.03, y: 0.248, w: 0.94, h: 0.042 },
+        anchor: 3,
+          box: { x: 0.03, y: 0.248, w: 0.94, h: 0.042 },
       },
       {
         id: 'metal-chips',
@@ -701,7 +718,8 @@ export const jewelleryScreens: Screen[] = [
           'No "All" chip on this row. Tapping the active chip is the only way back to unfiltered.',
           'Selecting a metal changes the summary strip as well as the list.',
         ],
-        box: { x: 0.03, y: 0.295, w: 0.94, h: 0.042 },
+        anchor: 4,
+          box: { x: 0.03, y: 0.295, w: 0.94, h: 0.042 },
       },
       {
         id: 'search',
@@ -718,7 +736,8 @@ export const jewelleryScreens: Screen[] = [
         notes: [
           'Book ID is displayed on each row but is excluded from the search query.',
         ],
-        box: { x: 0.03, y: 0.345, w: 0.94, h: 0.055 },
+        anchor: 5,
+          box: { x: 0.03, y: 0.345, w: 0.94, h: 0.055 },
       },
       {
         id: 'pawn-rows',
@@ -741,7 +760,8 @@ export const jewelleryScreens: Screen[] = [
           'The unsynced cloud icon has no tooltip or label.',
           'interest_basis is "Monthly" in the demo data but the form dropdown only offers Gold/Silver, so a subtitle can legitimately read either.',
         ],
-        box: { x: 0.03, y: 0.415, w: 0.94, h: 0.26 },
+        anchor: 6,
+          box: { x: 0.03, y: 0.415, w: 0.94, h: 0.26 },
       },
       {
         id: 'new-loan-fab',
@@ -755,7 +775,8 @@ export const jewelleryScreens: Screen[] = [
         ],
         widget: 'FloatingActionButton.extended',
         source: 'lib/ui/pawn_screen.dart:183',
-        box: { x: 0.48, y: 0.7, w: 0.48, h: 0.075 },
+        anchor: 7,
+          box: { x: 0.48, y: 0.7, w: 0.48, h: 0.075 },
         overlay: true,
       },
       {
@@ -851,7 +872,8 @@ export const jewelleryScreens: Screen[] = [
           'Title is "Customer", not the name. Consider setting it to the name instead.',
           'Four actions, zero overflow. A fifth means building the menu.',
         ],
-        box: { x: 0, y: 0.052, w: 1, h: 0.088 },
+        anchor: 1,
+          box: { x: 0, y: 0.052, w: 1, h: 0.088 },
       },
       {
         id: 'header-card',
@@ -871,7 +893,8 @@ export const jewelleryScreens: Screen[] = [
           'No star rating — a text pill reading "Rating: New".',
           'Tapping the avatar opens a zoomable full-screen photo, which is a nice touch for ID photos.',
         ],
-        box: { x: 0.04, y: 0.152, w: 0.92, h: 0.105 },
+        anchor: 2,
+          box: { x: 0.04, y: 0.152, w: 0.92, h: 0.105 },
       },
       {
         id: 'outstanding-card',
@@ -888,7 +911,8 @@ export const jewelleryScreens: Screen[] = [
         notes: [
           'The app\'s strongest card. Three figures plus one honest sentence does a lot of work on one screen.',
         ],
-        box: { x: 0.04, y: 0.27, w: 0.92, h: 0.105 },
+        anchor: 4,
+          box: { x: 0.04, y: 0.27, w: 0.92, h: 0.105 },
       },
       {
         id: 'ledger',
@@ -910,7 +934,8 @@ export const jewelleryScreens: Screen[] = [
           'Refinance rows get the gold gradient — a structural change, not a transaction.',
           'bal is always red, even when the customer is ahead.',
         ],
-        box: { x: 0.04, y: 0.395, w: 0.92, h: 0.215 },
+        anchor: 6,
+          box: { x: 0.04, y: 0.395, w: 0.92, h: 0.215 },
       },
       {
         id: 'action-bar',
@@ -930,7 +955,8 @@ export const jewelleryScreens: Screen[] = [
           'Refinance and Add Loan are not buttons — one is a chip in a dialog, the other is implicit. The README describes both as buttons.',
           'Only two actions, and they are the two that actually happen at a shop counter.',
         ],
-        box: { x: 0.02, y: 0.86, w: 0.96, h: 0.082 },
+        anchor: 8,
+          box: { x: 0.02, y: 0.86, w: 0.96, h: 0.082 },
       },
       {
         id: 'payment-schedule',
@@ -1044,7 +1070,8 @@ export const jewelleryScreens: Screen[] = [
         notes: [
           'The only TabBar in the app. Tabs = sibling views of one destination.',
         ],
-        box: { x: 0, y: 0.052, w: 1, h: 0.088 },
+        anchor: 1,
+          box: { x: 0, y: 0.052, w: 1, h: 0.088 },
       },
       {
         id: 'khata-rows',
@@ -1066,7 +1093,8 @@ export const jewelleryScreens: Screen[] = [
           'Overdue is the only red row — correct, since it is the only actionable one.',
           'Uses moneyWhole (Indian grouping). The Pawn tab does not.',
         ],
-        box: { x: 0.04, y: 0.16, w: 0.92, h: 0.42 },
+        anchor: 3,
+          box: { x: 0.04, y: 0.16, w: 0.92, h: 0.42 },
       },
       {
         id: 'pawn-filters',
@@ -1198,7 +1226,8 @@ export const jewelleryScreens: Screen[] = [
         notes: [
           'The "Above the list" icon is a positional control, not navigation. Hard to guess what it does.',
         ],
-        box: { x: 0, y: 0.052, w: 1, h: 0.088 },
+        anchor: 1,
+          box: { x: 0, y: 0.052, w: 1, h: 0.088 },
       },
       {
         id: 'hero',
@@ -1215,7 +1244,8 @@ export const jewelleryScreens: Screen[] = [
         notes: [
           'Largest type in the app, used exactly once, on the one number that justifies the screen.',
         ],
-        box: { x: 0.04, y: 0.152, w: 0.92, h: 0.135 },
+        anchor: 2,
+          box: { x: 0.04, y: 0.152, w: 0.92, h: 0.135 },
       },
       {
         id: 'reserves',
@@ -1231,7 +1261,8 @@ export const jewelleryScreens: Screen[] = [
         notes: [
           'Grams, not rupees. Correct for collateral, and it keeps the screen stable against gold price swings.',
         ],
-        box: { x: 0.04, y: 0.3, w: 0.92, h: 0.075 },
+        anchor: 3,
+          box: { x: 0.04, y: 0.3, w: 0.92, h: 0.075 },
       },
       {
         id: 'age-groups',
@@ -1249,7 +1280,8 @@ export const jewelleryScreens: Screen[] = [
           'One red tile out of four is an effective emphasis technique — no extra labelling needed.',
           'Buckets are months, not years, despite the 12M+ label.',
         ],
-        box: { x: 0.04, y: 0.44, w: 0.92, h: 0.085 },
+        anchor: 5,
+          box: { x: 0.04, y: 0.44, w: 0.92, h: 0.085 },
       },
       {
         id: 'quick-views',
@@ -1268,7 +1300,8 @@ export const jewelleryScreens: Screen[] = [
           '"1 loans older than a year" — plural bug, visible to the user.',
           'Good use of the quieter row style for what is really navigation.',
         ],
-        box: { x: 0.04, y: 0.56, w: 0.92, h: 0.2 },
+        anchor: 7,
+          box: { x: 0.04, y: 0.56, w: 0.92, h: 0.2 },
       },
       systemNav,
     ],
@@ -1315,7 +1348,8 @@ export const jewelleryScreens: Screen[] = [
           'Last sync is conditionally rendered, so the card height changes after the first sync.',
           'Pending changes — the figure that matters — looks the same as the other three rows.',
         ],
-        box: { x: 0.04, y: 0.152, w: 0.92, h: 0.16 },
+        anchor: 2,
+          box: { x: 0.04, y: 0.152, w: 0.92, h: 0.16 },
       },
       {
         id: 'sync-button',
@@ -1333,7 +1367,8 @@ export const jewelleryScreens: Screen[] = [
         notes: [
           'Label uses the "…" character, not "...". Minor, but inconsistent with every other string in the app.',
         ],
-        box: { x: 0.04, y: 0.33, w: 0.92, h: 0.07 },
+        anchor: 3,
+          box: { x: 0.04, y: 0.33, w: 0.92, h: 0.07 },
       },
       {
         id: 'failure-list',

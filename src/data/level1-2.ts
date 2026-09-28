@@ -95,7 +95,11 @@ export const level1: Level = {
           'Nest cards inside cards. One level of grouping is enough.',
         ],
       },
-    },
+
+      figs: {
+        do: 'card-grouped',
+        dont: 'card-everything',
+      },    },
     {
       id: 'lists',
       label: 'Lists',
@@ -116,7 +120,11 @@ export const level1: Level = {
           'Leave a zero-length list blank — show an empty state instead.',
         ],
       },
-    },
+
+      figs: {
+        do: 'list-urgent',
+        dont: 'list-alpha',
+      },    },
     {
       id: 'forms',
       label: 'Forms',
@@ -137,7 +145,11 @@ export const level1: Level = {
           'Use a dropdown for 3 options — radio buttons or chips are faster.',
         ],
       },
-    },
+
+      figs: {
+        do: 'form-long',
+        dont: 'form-steps',
+      },    },
     {
       id: 'fab',
       label: 'Floating action button',
@@ -179,7 +191,11 @@ export const level1: Level = {
           'Keep one bottom bar across every screen size.',
         ],
       },
-    },
+
+      figs: {
+        do: 'nav-four',
+        dont: 'nav-six',
+      },    },
   ],
 }
 
@@ -216,7 +232,11 @@ export const level2: Level = {
           'Use more than six buttons on a screen. That is a sign the flow needs splitting.',
         ],
       },
-    },
+
+      figs: {
+        do: 'btn-one',
+        dont: 'btn-two',
+      },    },
     {
       id: 'icon-button',
       label: 'Icon button',
@@ -322,7 +342,11 @@ export const level2: Level = {
           'Debounce so heavily that the list feels stuck.',
         ],
       },
-    },
+
+      figs: {
+        do: 'field-label',
+        dont: 'field-hint',
+      },    },
     {
       id: 'dropdown',
       label: 'Dropdown',
@@ -341,7 +365,11 @@ export const level2: Level = {
           'Nest a dropdown inside a scrolling form without a clear label — users lose track of which field it belongs to.',
         ],
       },
-    },
+
+      figs: {
+        do: 'three-visible',
+        dont: 'three-hidden',
+      },    },
 
     /* ── Selection ─────────────────────────────────────────────────── */
     {
@@ -363,7 +391,11 @@ export const level2: Level = {
           'Offer five mutually exclusive options as chips when a dropdown would fit better.',
         ],
       },
-    },
+
+      figs: {
+        do: 'chip-on',
+        dont: 'chip-faint',
+      },    },
     {
       id: 'badge',
       label: 'Badge',

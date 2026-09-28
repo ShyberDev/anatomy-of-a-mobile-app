@@ -79,7 +79,10 @@ export const level3: Level = {
           'Filter a list short enough that scrolling is fine; it is just a rectangle in the way.',
         ],
       },
-    },
+
+      figs: {
+        do: 'sf-compose',
+      },    },
     {
       id: 'master-detail',
       label: 'Master–detail',
@@ -98,7 +101,11 @@ export const level3: Level = {
           'Make the selection in the master the only way to see detail — always allow a full screen too.',
         ],
       },
-    },
+
+      figs: {
+        do: 'md-phone',
+        dont: 'md-squeeze',
+      },    },
     {
       id: 'list-to-detail',
       label: 'List → detail',
@@ -118,7 +125,10 @@ export const level3: Level = {
           'Hide the item’s identity (name/photo) below the fold on the detail screen.',
         ],
       },
-    },
+
+      figs: {
+        do: 'md-phone',
+      },    },
     {
       id: 'tabbed',
       label: 'Tabbed interface',
@@ -144,16 +154,24 @@ export const level3: Level = {
       solves:
         'The app has a handful of genuinely different top-level jobs, and the user moves between them many times a session.',
       builds: ['navbar', 'icon-button'],
+      figs: {
+        do: 'nav-four',
+        dont: 'nav-six',
+      },
       guidance: {
         do: [
           'Make each destination a peer — a top-level place, not a tool or a sub-screen.',
-          'Label every destination and highlight the current one.',
-          'On tablets and landscape, switch to a navigation rail.',
+          'Label every destination; an unlabelled icon is a guess.',
+          'Give each destination its own scroll state, restored when the user returns to it.',
+          'Show a badge on a destination that has something waiting, rather than only on the screen inside it.',
+          'On tablets and in landscape, switch to a navigation rail.',
         ],
         dont: [
-          'Exceed five destinations, or the tap targets get too small.',
+          'Exceed five destinations, or the tap targets get too small to hit reliably.',
           'Use it for secondary actions; that is a drawer.',
-          'Hide the top-level destinations behind a drawer when there are only 3–4 of them.',
+          'Hide the top-level destinations behind a drawer when there are only three or four of them.',
+          'Keep a bottom bar on a wide screen. It is out of thumb reach and visually unbalanced.',
+          'Let a destination keep a half-finished form. Switching away should not strand input.',
         ],
       },
     },
@@ -175,6 +193,9 @@ export const level3: Level = {
           'Leave rows that only show a "coming soon" toast. Build them or remove them.',
         ],
       },
+      figs: {
+        do: 'drawer-split',
+      },
     },
     {
       id: 'wizard',
@@ -194,7 +215,11 @@ export const level3: Level = {
           'Hide the total number of steps until the end.',
         ],
       },
-    },
+
+      figs: {
+        do: 'form-steps',
+        dont: 'form-long',
+      },    },
     {
       id: 'confirm',
       label: 'Confirmation dialog',
@@ -214,7 +239,11 @@ export const level3: Level = {
           'Confirm an action that is trivially reversible (archiving a note) — an undo snackbar is less friction.',
         ],
       },
-    },
+
+      figs: {
+        do: 'dlg-named',
+        dont: 'dlg-vague',
+      },    },
     {
       id: 'empty-state',
       label: 'Empty state',
@@ -233,7 +262,11 @@ export const level3: Level = {
           'Use the same empty state for "no data yet" and "no results for this filter" — they need different words.',
         ],
       },
-    },
+
+      figs: {
+        do: 'empty-helpful',
+        dont: 'empty-blank',
+      },    },
     {
       id: 'loading-state',
       label: 'Loading state',
@@ -253,7 +286,11 @@ export const level3: Level = {
           'Leave a spinner running after an error (see Error state).',
         ],
       },
-    },
+
+      figs: {
+        do: 'load-skeleton',
+        dont: 'load-spinner',
+      },    },
     {
       id: 'error-state',
       label: 'Error state',

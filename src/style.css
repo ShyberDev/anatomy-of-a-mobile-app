@@ -163,6 +163,9 @@ a { color: var(--accent); }
 
 .phone { width: 100%; max-width: 320px; }
 .phone__frame { background: #05070b; border: 1px solid var(--line); border-radius: 42px; padding: 9px; box-shadow: var(--shadow); }
+/* `clip` on the scroll column: an `overflow: hidden` box can still be scrolled
+   programmatically, so a tooltip near the edge would give the column a scroll
+   width and clicking anything would slide the mock sideways. */
 .phone__screen { position: relative; aspect-ratio: 9 / 19; border-radius: 33px; overflow: hidden; background: var(--mock-bg); isolation: isolate; }
 
 /* ── Mock screen ──────────────────────────────────────────────────────── */
@@ -175,6 +178,68 @@ a { color: var(--accent); }
   user-select: none; overflow: hidden;
 }
 
+/* The mock screen behaves like a real Scaffold: the whole column scrolls, and
+   the status bar, bottom nav and system bar are pinned by `position: sticky`.
+   Without this the chrome stacks over the content and the bottom nav, which is
+   the most important thing to inspect, is unreachable. */
+.scr__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  /* `clip` rather than `hidden`: a tooltip or a region tag near the edge would
+     otherwise give the column a scroll width, and anything that scrolls the
+     element into view (a click, a keyboard focus) shifts the whole mock. */
+  overflow-x: clip;
+  scrollbar-width: none;
+}
+.scr__scroll::-webkit-scrollbar { display: none; }
+
+.m-chrome { position: sticky; z-index: 3; flex: none; }
+.m-chrome--top { top: 0; }
+.m-chrome--bottom { bottom: 0; }
+
+/* ── Hover tooltips ───────────────────────────────────────────────────────
+   A real IconButton carries a tooltip; without one the control is unnamed for
+   a screen reader and for a long-press. The mock names its own controls the
+   same way, which makes the rule visible instead of just stated.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.m-tip { position: relative; display: inline-flex; }
+.m-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%) translateY(3px);
+  z-index: 30;
+  width: max-content;
+  max-width: 13em;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: #171b24;
+  color: #e7ecf4;
+  border: 1px solid #2c3444;
+  box-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.6);
+  font-size: 0.56rem;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-align: left;
+  white-space: normal;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.13s, transform 0.13s;
+}
+.m-tip:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* A tooltip on a bottom-bar item has no room above it, so it opens upward from
+   the bar's own top edge instead of being clipped by the phone. */
+.m-navbar__item .m-tip::after { bottom: auto; top: calc(100% + 5px); }
+
+/* A zero-height marker emitted before each block, so a region can be measured
+   against a block without the mock knowing anything about regions. */
+.m-anchor { display: block; height: 0; flex: none; }
+
 .m-status {
   height: 5.2%; display: flex; align-items: center; justify-content: space-between;
   padding: 0 5.5%; font-size: 0.62em; font-weight: 650;
@@ -183,7 +248,7 @@ a { color: var(--accent); }
 .m-status__icons { display: flex; align-items: center; gap: 4px; }
 .m-status__pct { font-size: 0.9em; }
 
-.m-sysnav { height: 5.8%; background: var(--mock-bg); display: grid; place-items: center; margin-top: auto; }
+.m-sysnav { height: 5.8%; background: var(--mock-bg); display: grid; place-items: center; }
 .m-sysnav span { width: 30%; height: 3.5px; border-radius: 999px; background: var(--mock-ink); opacity: 0.75; }
 
 .m-appbar {
@@ -370,19 +435,30 @@ a { color: var(--accent); }
 .m-pill.t-red { background: #FBEAEA; color: #C62828; }
 .m-pill.t-blue { background: #E8F0FA; color: #1565C0; }
 
+/* A real FAB floats above the scrolling content and stays reachable, so it is
+   taken out of flow and pinned to the bottom of the screen rather than sitting
+   wherever the content happens to end. */
 .m-fab {
-  position: absolute; right: 5%; bottom: 8.5%;
+  position: absolute; right: 5%; bottom: 18%;
+  z-index: 4;
   display: flex; align-items: center; gap: 5px;
   background: var(--mock-accent); color: #fff;
   border-radius: 999px; padding: 7px 12px;
   font-size: 0.76em; font-weight: 600;
   box-shadow: 0 5px 14px -4px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
 }
 .m-fab--fab { padding: 0; width: 2.9em; height: 2.9em; justify-content: center; font-size: 1.1em; }
 .m-fab__ico { font-size: 1.1em; }
 
+/* A button row sits in normal flow, inside a form. The pinned variant
+   (`.m-actionbar`) is for a screen that has a sticky bottom bar instead of a
+   bottom navigation — a screen has one or the other, never both. */
+.m-btnrow { display: flex; gap: 5px; padding: 1.5% 4.5% 1%; }
+
 .m-actionbar {
   position: absolute; left: 0; right: 0; bottom: 5.8%;
+  z-index: 4;
   background: var(--mock-surface);
   padding: 5px 6px; display: flex; gap: 5px;
 }
@@ -440,7 +516,7 @@ a { color: var(--accent); }
 .m-drawer__chev { opacity: 0.35; font-size: 0.9em; }
 .m-drawer__row.t-red .m-drawer__ico, .m-drawer__row.t-red .m-drawer__txt b { color: #C62828; }
 
-.m-navbar { height: 9.5%; display: grid; grid-template-columns: repeat(4, 1fr); background: var(--mock-surface); margin-top: auto; }
+.m-navbar { height: 9.5%; display: grid; grid-template-columns: repeat(4, 1fr); background: var(--mock-surface); }
 .m-navbar__item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; font-size: 0.6em; opacity: 0.5; }
 .m-navbar__icon { font-size: 1.1em; }
 .m-navbar__item--on { color: var(--mock-accent-dark); opacity: 1; font-weight: 650; }
@@ -448,6 +524,10 @@ a { color: var(--accent); }
 .m-spacer { flex: none; }
 
 /* ── Region hit areas ─────────────────────────────────────────────────── */
+
+/* One layer for every hit area, translated to follow the mock's scroll. */
+.regions { position: absolute; inset: 0; pointer-events: none; will-change: transform; }
+.regions > .region { pointer-events: auto; }
 
 .region {
   position: absolute; background: transparent;
@@ -536,6 +616,17 @@ a { color: var(--accent); }
 
 .panel__guide { margin-top: 17px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .panel__guide--single { grid-template-columns: 1fr; }
+
+/* A diagram above the bullets: the shape of the rule, then the words. */
+.panel__fig { margin: 0 0 9px; }
+.fig { margin: 0; }
+.fig__svg {
+  display: block; width: 100%; height: auto;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 4px;
+}
 .panel__do, .panel__dont { border-radius: 10px; padding: 11px 12px; }
 .panel__do { background: color-mix(in srgb, var(--do) 8%, transparent); border: 1px solid color-mix(in srgb, var(--do) 22%, transparent); }
 .panel__dont { background: color-mix(in srgb, var(--dont) 8%, transparent); border: 1px solid color-mix(in srgb, var(--dont) 22%, transparent); }
@@ -552,6 +643,54 @@ a { color: var(--accent); }
 .panel__notes ul { margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 6px; }
 .panel__notes li { font-size: 0.82rem; color: var(--fg-dim); }
 .panel__notes li::marker { color: var(--warn); }
+
+/* ── Bottom-nav breakdown ─────────────────────────────────────────────── */
+
+.navdetail { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line-soft); }
+.navdetail__h { margin: 0; font-size: 0.95rem; font-weight: 660; }
+.navdetail__sub { margin: 5px 0 12px; color: var(--fg-faint); font-size: 0.79rem; line-height: 1.6; }
+.navdetail__sub b { color: var(--fg-dim); }
+
+.navdetail__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+
+.navrow {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line);
+  border-radius: 9px;
+  padding: 9px 11px;
+  background: var(--bg-elev-2);
+}
+.navrow--on { border-left-color: var(--accent); }
+.navrow__top { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.navrow__icon {
+  width: 20px; height: 20px; border-radius: 999px; flex: none;
+  display: grid; place-items: center;
+  background: var(--bg-elev); color: var(--fg-dim); font-size: 0.7rem;
+}
+.navrow--on .navrow__icon { background: var(--accent-soft); color: var(--accent); }
+.navrow__label { font-size: 0.85rem; font-weight: 640; }
+.navrow__role {
+  font-size: 0.55rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 1px 6px; border-radius: 4px;
+  background: var(--bg-elev); color: var(--fg-faint);
+}
+.navrow__role[data-role='peer'] { background: var(--accent-soft); color: var(--accent); }
+.navrow__current { font-size: 0.55rem; color: var(--fg-faint); font-style: italic; }
+
+.navrow__is { margin: 5px 0 7px; font-size: 0.78rem; color: var(--fg-dim); line-height: 1.55; }
+
+.navrow__meta { margin: 0; display: flex; flex-direction: column; gap: 5px; }
+.navrow__meta > div { display: grid; grid-template-columns: 8.5em 1fr; gap: 8px; }
+.navrow__meta dt { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--fg-faint); padding-top: 1px; }
+.navrow__meta dd { margin: 0; font-size: 0.75rem; color: var(--fg-dim); line-height: 1.5; }
+
+.navdetail__foot {
+  margin: 11px 0 0; padding: 9px 11px;
+  background: color-mix(in srgb, var(--warn) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--warn) 25%, transparent);
+  border-radius: 8px;
+  font-size: 0.77rem; color: var(--fg-dim); line-height: 1.55;
+}
 
 .panel__empty { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 280px; gap: 4px; }
 .panel__emptyIcon { font-size: 1.6rem; opacity: 0.45; }

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { CATEGORIES, type CategoryId } from '../data/types'
-import type { Level, Level1Entry, Level2Entry, Level3Entry } from '../data/levels'
+import type { Figures, Level, Level1Entry, Level2Entry, Level3Entry } from '../data/levels'
+import Figure from './Figure.vue'
 
 /**
  * Renders one entry from any of the three levels, plus the shared
@@ -29,6 +30,9 @@ const builds = computed(() => {
   const e = props.entry
   return e && 'builds' in e ? (e.builds as string[]) : null
 })
+
+/** Diagrams, when the entry has them. */
+const figs = computed(() => (props.entry as { figs?: Figures })?.figs)
 </script>
 
 <template>
@@ -69,12 +73,18 @@ const builds = computed(() => {
       <div class="panel__guide" :class="{ 'panel__guide--single': !entry.guidance.dont.length }">
         <section v-if="entry.guidance.do.length" class="panel__do">
           <h3 class="panel__h3">Do</h3>
+          <figure v-if="figs?.do" class="panel__fig">
+            <Figure :fig="figs.do" />
+          </figure>
           <ul>
             <li v-for="(d, i) in entry.guidance.do" :key="i">{{ d }}</li>
           </ul>
         </section>
         <section v-if="entry.guidance.dont.length" class="panel__dont">
           <h3 class="panel__h3">Don't</h3>
+          <figure v-if="figs?.dont" class="panel__fig">
+            <Figure :fig="figs.dont" />
+          </figure>
           <ul>
             <li v-for="(d, i) in entry.guidance.dont" :key="i">{{ d }}</li>
           </ul>
@@ -87,6 +97,8 @@ const builds = computed(() => {
           <li v-for="(n, i) in (entry as any).notes" :key="i">{{ n }}</li>
         </ul>
       </div>
+
+      <slot name="extra" />
     </template>
 
     <div v-else class="panel__empty">
