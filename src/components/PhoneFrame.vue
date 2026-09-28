@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import type { Dataset, Region, Screen } from '../data/types'
 import ScreenMock from './ScreenMock.vue'
 
@@ -179,13 +179,19 @@ onMounted(() => {
       scrollTop.value = (e.target as HTMLElement).scrollTop
     })
 })
-watch(() => [props.screen.id, props.scale, props.revealed.join(',')], () => {
-  // New screen or new font scale: start at the top, then re-measure.
-  scrollTop.value = 0
-  const sc = screenEl.value?.querySelector<HTMLElement>('.scr__scroll')
-  if (sc) sc.scrollTop = 0
-  measure()
-})
+watch(
+  () => [props.screen.id, props.scale, props.revealed.join(',')],
+  async () => {
+    // Reset first, then wait for the new screen's blocks to actually exist.
+    // Measuring synchronously here would read the *previous* screen's DOM and
+    // leave every region pointing at the wrong thing.
+    scrollTop.value = 0
+    const sc = screenEl.value?.querySelector<HTMLElement>('.scr__scroll')
+    if (sc) sc.scrollTop = 0
+    await nextTick()
+    measure()
+  },
+)
 
 function boxStyle(r: Region) {
   const m = measured.value[r.id]
