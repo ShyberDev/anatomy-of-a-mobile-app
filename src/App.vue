@@ -102,11 +102,7 @@ watch(
     </main>
 
     <footer class="app__foot">
-      <p>
-        Interactive anatomy explorer. Interaction pattern inspired by
-        <a href="https://anatomyof.lunarwerx.com" rel="noopener noreferrer">AnatomyOf</a>
-        by LunarWerx (MIT); all copy and the simulation here are original.
-      </p>
+      <p>Anatomy of a Mobile App · MIT licensed</p>
     </footer>
   </div>
 </template>

@@ -120,11 +120,15 @@ Two behaviours worth knowing:
 
 ## Credits
 
-- Interaction pattern inspired by [**AnatomyOf**](https://anatomyof.lunarwerx.com)
-  by [LunarWerx](https://lunarwerx.com) — MIT licensed. Not affiliated.
-- The app documented in the second dataset is
-  [Jew_Pawn-Lending-Suite](https://github.com/ShyberDev/Jew_Pawn-Lending-Suite)
-  by [ShyberDev](https://github.com/ShyberDev).
+The clickable-anatomy-diagram format was inspired by
+[**AnatomyOf**](https://anatomyof.lunarwerx.com) by
+[LunarWerx](https://lunarwerx.com), which applies it to source files and
+programming languages. No code or copy was taken from it — this is an original
+implementation, and not affiliated.
+
+The app documented in the second dataset is
+[Jew_Pawn-Lending-Suite](https://github.com/ShyberDev/Jew_Pawn-Lending-Suite)
+by [ShyberDev](https://github.com/ShyberDev).
 
 ## License
 
